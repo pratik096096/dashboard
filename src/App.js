@@ -1,25 +1,50 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
 
-function App() {
+import SignInPage from '../src/pages/SignInPage ';
+import SignUpPage from '../src/pages/SignUpPage ';
+
+import Dashboard from "../src/pages/Dashboard "
+
+
+import { HashRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <Router>
+      <AppContent />
+    </Router>
+  );
+};
+
+const AppContent = () => {
+  const location = useLocation();
+  const showNavbar = location.pathname !== '/dashboard';
+
+  return (
+    <div className="app-container">
+      {/* Conditionally render the navbar */}
+      {showNavbar && (
+        <nav className="navbar">
+          <h1 className="logo">Your Logo</h1>
+        </nav>
+      )}
+
+      <div className="content-container">
+        <Routes>
+          <Route path="/" element={<SignInPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
+        </Routes>
+      </div>
+
+      {/* Render the dashboard separately */}
+      <div className="dash">
+        <Routes>
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Routes>
+      </div>
     </div>
   );
-}
+};
 
 export default App;
